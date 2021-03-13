@@ -1,0 +1,13 @@
+Stacks are linked lists
+
+Init lists
+- Add back node to list A
+- List B is NULL
+
+Read instructions
+- Check if the instruction is valid
+- Apply instruction
+
+Check if stacks are good
+- Check if list A is sorted
+- Check if list B is empty
