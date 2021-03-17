@@ -6,13 +6,13 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 11:54:03 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/17 11:54:24 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/17 15:51:41 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker.h"
 
-void ft_stack_rotate(t_list **stack)
+void	ft_stack_rotate(t_list **stack)
 {
 	t_list *node;
 
@@ -24,7 +24,7 @@ void ft_stack_rotate(t_list **stack)
 	ft_lstadd_back(stack, node);
 }
 
-void ft_stack_reverse_rotate(t_list **stack)
+void	ft_stack_reverse_rotate(t_list **stack)
 {
 	t_list *node;
 	t_list *previous;
@@ -45,7 +45,7 @@ void ft_stack_reverse_rotate(t_list **stack)
 	previous->next = NULL;
 }
 
-void ft_stack_swap(t_list **stack)
+void	ft_stack_swap(t_list **stack)
 {
 	t_list *node;
 	t_list *next;
@@ -61,19 +61,19 @@ void ft_stack_swap(t_list **stack)
 	*stack = next;
 }
 
-t_list *ft_stack_pop(t_list **stack)
+t_list	*ft_stack_pop(t_list **stack)
 {
 	t_list *node;
 
 	node = *stack;
 	if (!node)
-		return NULL;
+		return (NULL);
 	*stack = node->next;
 	node->next = NULL;
 	return (node);
 }
 
-t_bool is_list_sorted(t_list *list)
+t_bool	is_list_sorted(t_list *list)
 {
 	while (list->next)
 	{

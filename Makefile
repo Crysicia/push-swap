@@ -8,6 +8,8 @@ CHECKER 		= checker
 CHECKER_SRCS	= the_checker/main.c \
 				  the_checker/parse_arguments.c \
 				  the_checker/stacks.c \
+				  the_checker/utils.c \
+				  the_checker/statements.c \
 				  the_checker/get_next_line_utils.c \
 				  the_checker/get_next_line.c
 CHECKER_OBJS 	= $(CHECKER_SRCS:.c=.o)

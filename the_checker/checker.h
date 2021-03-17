@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 15:03:56 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/17 11:55:06 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/17 15:57:31 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 # define NUM_OF_INSTRUCTIONS 11
 # define BUFFER_SIZE 256
 
-void	init_checker(t_stacks *stacks);
 t_bool	parse_arguments(t_stacks *stacks, char *arg);
-void	ft_error(t_stacks *stacks);
+void	execute_statements(t_checker *checker);
 
 /*
 ** Stacks
@@ -33,7 +32,11 @@ t_bool	is_list_sorted(t_list *list);
 /*
 ** Utils
 */
-t_bool ft_malloc(void **pointer, size_t size);
+t_bool	ft_malloc(void **pointer, size_t size);
+void	init_checker(t_checker *checker);
+void	free_checker(t_checker *checker);
+void	ft_error(t_checker *checker);
+t_bool	is_duplicate(char *argv[], int argc);
 
 /*
 ** Get next line
