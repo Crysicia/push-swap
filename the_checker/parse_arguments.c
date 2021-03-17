@@ -6,12 +6,10 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 15:19:29 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/13 15:23:20 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/17 09:31:10 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
-#include "../includes/types.h"
 #include "checker.h"
 
 t_bool is_argument_valid(char *arg)

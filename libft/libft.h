@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 01:17:22 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 13:26:05 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/17 11:56:02 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ void				*ft_free_matrix(void **matrix, size_t size);
 char				*ft_strcchr(const char *s, int c);
 char				**ft_split_set(const char *s, char *set);
 int					ft_in_range(int min, int max, int value);
+int					ft_strcmp(const char *s1, const char *s2);
 
 #endif
