@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:06 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/17 15:57:04 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/19 16:45:45 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ void	execute_statement(t_stacks *stacks, char *line)
 		handle_rotate(stacks, line);
 }
 
-void	execute_statements(t_checker *checker)
+void	execute_statements(t_push_swap *push_swap)
 {
 	t_list *node;
 
-	node = checker->statements;
+	node = push_swap->statements;
 	while (node)
 	{
-		execute_statement(&checker->stacks, node->content);
+		execute_statement(&push_swap->stacks, node->content);
 		node = node->next;
 	}
 }

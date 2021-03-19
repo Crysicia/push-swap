@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   shared.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/13 14:14:05 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/19 16:46:43 by lpassera         ###   ########.fr       */
+/*   Created: 2021/03/19 15:38:02 by lpassera          #+#    #+#             */
+/*   Updated: 2021/03/19 16:46:44 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPES_H
-# define TYPES_H
+#ifndef SHARED_H
+# define SHARED_H
+# include <limits.h>
+# include "types.h"
 # include "../libft/libft.h"
 
-typedef enum		e_bool
-{
-	false,
-	true
-}					t_bool;
+t_bool	parse_arguments(t_stacks *stacks, char *arg);
+t_bool	ft_malloc(void **pointer, size_t size);
+t_bool	is_duplicate(char *argv[], int argc);;
 
-typedef struct		s_stacks
-{
-	t_list			*a;
-	t_list			*b;
-}					t_stacks;
-
-typedef struct		s_push_swap
-{
-	t_stacks		stacks;
-	t_list			*statements;
-}					t_push_swap;
-
+void	init_push_swap(t_push_swap *push_swap);
+void	free_push_swap(t_push_swap *push_swap);
+void	ft_error(t_push_swap *push_swap);
 #endif
