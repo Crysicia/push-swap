@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 15:03:56 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/17 15:57:31 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/19 13:47:53 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CHECKER_H
 # include "../libft/libft.h"
 # include "../includes/types.h"
+# include <limits.h>
 # define NUM_OF_INSTRUCTIONS 11
 # define BUFFER_SIZE 256
 
