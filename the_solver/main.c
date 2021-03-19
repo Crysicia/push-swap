@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/19 17:12:54 by lpassera          #+#    #+#             */
+/*   Updated: 2021/03/19 17:13:20 by lpassera         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/shared.h"
+
 int		main(int argc, char *argv[])
 {
 	t_push_swap push_swap;
@@ -12,13 +26,6 @@ int		main(int argc, char *argv[])
 			ft_error(&push_swap);
 		argc--;
 	}
-	if (!parse_statements(&push_swap))
-		ft_error(&push_swap);
-	execute_statements(&push_swap);
-	if (are_stacks_sorted(&push_swap.stacks))
-		write(1, "OK\n", 3);
-	else
-		write(1, "KO\n", 3);
 	free_push_swap(&push_swap);
 	return (0);
 }

@@ -15,7 +15,7 @@ CHECKER_SRCS	= the_checker/main.c \
 				  the_checker/get_next_line.c
 CHECKER_OBJS 	= $(CHECKER_SRCS:.c=.o)
 SOLVER 			= push_swap
-SOLVER_SRCS		= 
+SOLVER_SRCS		= the_solver/main.c
 SOLVER_OBJS 	= $(SOLVER_SRCS:.c=.o)
 
 all: $(CHECKER) $(SOLVER)
@@ -35,6 +35,7 @@ $(LIBFT):
 clean:
 	$(RM) $(CHECKER_OBJS)
 	$(RM) $(SOLVER_OBJS)
+	$(RM) $(SHARED_OBJS)
 	@$(MAKE) clean -C libft
 
 fclean: clean
