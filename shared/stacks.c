@@ -6,11 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 11:54:03 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/19 16:45:47 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/22 15:45:39 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "shared.h"
 
 void	ft_stack_rotate(t_list **stack)
 {

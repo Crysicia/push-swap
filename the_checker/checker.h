@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 15:03:56 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/19 16:46:57 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/22 15:46:43 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,6 @@
 # define BUFFER_SIZE 256
 
 void	execute_statements(t_push_swap *push_swap);
-
-/*
-** Stacks
-*/
-void	ft_stack_rotate(t_list **stack);
-void	ft_stack_reverse_rotate(t_list **stack);
-void	ft_stack_swap(t_list **stack);
-t_list	*ft_stack_pop(t_list **stack);
-t_bool	is_list_sorted(t_list *list);
 
 /*
 ** Get next line

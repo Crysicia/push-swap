@@ -5,11 +5,11 @@ HEADERS 		= -I./includes
 LIBS 			= -Llibft -lft
 LIBFT 			= libft/libft.a
 SHARED_SRCS		= shared/utils.c \
+				  shared/stacks.c \
 				  shared/parse_arguments.c
 SHARED_OBJS 	= $(SHARED_SRCS:.c=.o)
 CHECKER 		= checker
 CHECKER_SRCS	= the_checker/main.c \
-				  the_checker/stacks.c \
 				  the_checker/statements.c \
 				  the_checker/get_next_line_utils.c \
 				  the_checker/get_next_line.c
