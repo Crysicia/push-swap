@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:12:54 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/22 17:12:35 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/23 12:45:58 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,120 @@ void print_instructions(t_push_swap *push_swap)
 	ft_lstiter(push_swap->statements, ft_putendl);
 }
 
+void bubble_sort(int *arr, int size)
+{
+	t_bool swapped;
+	int i;
+	int temp;
+
+	swapped = true;
+	while (swapped)
+	{
+		i = 0;
+		swapped = false;
+		while (i + 1 < size)
+		{
+			if (arr[i] > arr[i + 1])
+			{
+				temp = arr[i + 1];
+				arr[i + 1] = arr[i];
+				arr[i] = temp;
+				swapped = true;
+			}
+			i++;
+		}
+		size--;
+	}
+}
+
+#include <stdio.h>
+#define PARTITION_SIZE 5
+
+typedef struct s_bounds
+{
+	int high;
+	int low;
+	int next_index;
+}				t_bounds;
+
+void print_bounds(t_bounds *bounds)
+{
+	printf("--- Boundaries:\nHigh: %d\nLow: %d\nNext index: %d\n", bounds->high, bounds->low, bounds->next_index);
+}
+
+void process_partition(t_push_swap *push_swap, t_bounds *partition)
+{
+	t_list *node;
+	int rotate_distance;
+	int best_distance;
+	int reverse_rotate_distance;
+	int size;
+
+	rotate_distance = 0;
+	best_distance = 0;
+	node = push_swap->stacks.a;
+	size = ft_lstsize(node);
+	while (node)
+	{
+		if (ft_in_range(partition->low, partition->high, *(int *)node->content))
+		{
+			if (rotate_distance < best_distance || size - rotate_distance < reverse_rotate_distance)
+			{
+				best_distance = rotate_distance;
+				reverse_rotate_distance = size - rotate_distance;
+			}
+		}
+		node = node->next;
+		rotate_distance++;
+	}
+	printf("best distance: %d\nBest reverse_rotate_distance: %d\n", best_distance, reverse_rotate_distance);
+}
+
+t_bounds partition_array(int *sorted_array, int size, int min_index)
+{
+	t_bounds bounds;
+	int partition_size;
+	int next_index;
+
+	partition_size = PARTITION_SIZE;
+	if (size - min_index - 1 < 5)
+		partition_size = size - min_index - 1;
+	next_index = min_index + partition_size + 1;
+	if (next_index >= size)
+		next_index = -1;
+	bounds.low = sorted_array[min_index];
+	bounds.high = sorted_array[min_index + partition_size];
+	bounds.next_index = next_index;
+	return (bounds);
+}
+
 void do_sort(t_push_swap *push_swap)
 {
-	while (!is_list_sorted(push_swap->a) && push_swap->b != NULL)
-	{
+	int *sorted_array;
+	int array_length;
+	t_list *node;
+	int i;
 
+	i = 0;
+	node = push_swap->stacks.a;
+	array_length = ft_lstsize(push_swap->stacks.a);
+	sorted_array = malloc(array_length * sizeof(int));
+	while (node)
+	{
+		sorted_array[i] = *(int *)node->content;
+		node = node->next;
+		i++;
 	}
+	bubble_sort(sorted_array, array_length);
+	t_bounds partition;
+	partition.next_index = 0;
+	while (partition.next_index != -1)
+	{
+		partition = partition_array(sorted_array, array_length, partition.next_index);
+		print_bounds(&partition);
+		process_partition(push_swap, &partition);
+	}
+
 	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("sa")));
 	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("rr")));
 	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("rra")));
@@ -43,6 +151,7 @@ void do_sort(t_push_swap *push_swap)
 	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("rrr")));
 	return ;
 }
+
 
 int		main(int argc, char *argv[])
 {
