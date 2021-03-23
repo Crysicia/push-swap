@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:12:54 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/23 12:45:58 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/23 17:28:47 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,13 @@ void bubble_sort(int *arr, int size)
 	}
 }
 
+
+int ft_abs(int i)
+{
+	if (i < 0)
+		return (-i);
+	return (i);
+}
 #include <stdio.h>
 #define PARTITION_SIZE 5
 
@@ -60,6 +67,7 @@ typedef struct s_bounds
 	int high;
 	int low;
 	int next_index;
+	int size;
 }				t_bounds;
 
 void print_bounds(t_bounds *bounds)
@@ -67,32 +75,90 @@ void print_bounds(t_bounds *bounds)
 	printf("--- Boundaries:\nHigh: %d\nLow: %d\nNext index: %d\n", bounds->high, bounds->low, bounds->next_index);
 }
 
-void process_partition(t_push_swap *push_swap, t_bounds *partition)
+void execute_rra(t_push_swap *push_swap, int times)
 {
-	t_list *node;
+	int i;
+
+	i = 0;
+	while (i < times)
+	{
+		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("rra")));
+		ft_stack_reverse_rotate(&push_swap->stacks.a);
+		i++;
+	}
+}
+
+void execute_ra(t_push_swap *push_swap, int times)
+{
+	int i;
+
+	i = 0;
+	while (i < times)
+	{
+		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("ra")));
+		ft_stack_rotate(&push_swap->stacks.a);
+		i++;
+	}
+}
+
+void execute_pb(t_push_swap *push_swap, int times)
+{
+	int i;
+
+	i = 0;
+	while (i < times)
+	{
+		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("pb")));
+		ft_lstadd_front(&push_swap->stacks.b, ft_stack_pop(&push_swap->stacks.a));
+		i++;
+	}
+}
+
+int get_node_distance(t_list *list, t_bounds *partition)
+{
 	int rotate_distance;
 	int best_distance;
 	int reverse_rotate_distance;
 	int size;
 
 	rotate_distance = 0;
-	best_distance = 0;
-	node = push_swap->stacks.a;
-	size = ft_lstsize(node);
-	while (node)
+	reverse_rotate_distance = INT_MAX;
+	best_distance = INT_MAX;
+	size = ft_lstsize(list);
+	while (list)
 	{
-		if (ft_in_range(partition->low, partition->high, *(int *)node->content))
+		if (ft_in_range(partition->low, partition->high, *(int *)list->content))
 		{
-			if (rotate_distance < best_distance || size - rotate_distance < reverse_rotate_distance)
-			{
+			if (rotate_distance < best_distance)
 				best_distance = rotate_distance;
-				reverse_rotate_distance = size - rotate_distance;
-			}
+			if ((size - rotate_distance) < reverse_rotate_distance)
+				reverse_rotate_distance = ft_max(size - rotate_distance, 0);
 		}
-		node = node->next;
+		list = list->next;
 		rotate_distance++;
 	}
-	printf("best distance: %d\nBest reverse_rotate_distance: %d\n", best_distance, reverse_rotate_distance);
+	if (reverse_rotate_distance < best_distance)
+		return (-reverse_rotate_distance);
+	return (best_distance);
+}
+
+void process_partition(t_push_swap *push_swap, t_bounds *partition)
+{
+	int node_distance;
+	int i;
+
+	i = 0;
+	while (i <= partition->size)
+	{
+		node_distance = get_node_distance(push_swap->stacks.a, partition);
+		// printf("Distance: %d\n", node_distance);
+		if (node_distance < 0)
+			execute_rra(push_swap, ft_abs(node_distance));
+		else
+			execute_ra(push_swap, node_distance);
+		execute_pb(push_swap, 1);
+		i++;
+	}
 }
 
 t_bounds partition_array(int *sorted_array, int size, int min_index)
@@ -110,7 +176,18 @@ t_bounds partition_array(int *sorted_array, int size, int min_index)
 	bounds.low = sorted_array[min_index];
 	bounds.high = sorted_array[min_index + partition_size];
 	bounds.next_index = next_index;
+	bounds.size = partition_size;
 	return (bounds);
+}
+
+void print_list(t_list *list)
+{
+	while (list)
+	{
+		printf("[%d] -> ", *(int *)list->content);
+		list = list->next;
+	}
+	printf("END\n");
 }
 
 void do_sort(t_push_swap *push_swap)
@@ -136,8 +213,12 @@ void do_sort(t_push_swap *push_swap)
 	while (partition.next_index != -1)
 	{
 		partition = partition_array(sorted_array, array_length, partition.next_index);
-		print_bounds(&partition);
+		// print_bounds(&partition);
 		process_partition(push_swap, &partition);
+		printf("Stack A ---\n");
+		print_list(push_swap->stacks.a);
+		printf("Stack B ---\n");
+		print_list(push_swap->stacks.b);
 	}
 
 	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("sa")));
