@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:12:54 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/24 11:45:35 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/24 13:09:17 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void execute_rra(t_push_swap *push_swap, int times)
 		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("rra")));
 		ft_stack_reverse_rotate(&push_swap->stacks.a);
 		i++;
-		print_stacks(push_swap, "rra");
+		// print_stacks(push_swap, "rra");
 	}
 }
 
@@ -119,7 +119,7 @@ void execute_ra(t_push_swap *push_swap, int times)
 		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("ra")));
 		ft_stack_rotate(&push_swap->stacks.a);
 		i++;
-		print_stacks(push_swap, "ra");
+		// print_stacks(push_swap, "ra");
 	}
 }
 
@@ -133,7 +133,7 @@ void execute_rrb(t_push_swap *push_swap, int times)
 		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("rrb")));
 		ft_stack_reverse_rotate(&push_swap->stacks.b);
 		i++;
-		print_stacks(push_swap, "rrb");
+		// print_stacks(push_swap, "rrb");
 	}
 }
 
@@ -147,7 +147,7 @@ void execute_rb(t_push_swap *push_swap, int times)
 		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("rb")));
 		ft_stack_rotate(&push_swap->stacks.b);
 		i++;
-		print_stacks(push_swap, "rb");
+		// print_stacks(push_swap, "rb");
 	}
 }
 
@@ -161,7 +161,7 @@ void execute_pb(t_push_swap *push_swap, int times)
 		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("pb")));
 		ft_lstadd_front(&push_swap->stacks.b, ft_stack_pop(&push_swap->stacks.a));
 		i++;
-		print_stacks(push_swap, "pb");
+		// print_stacks(push_swap, "pb");
 	}
 }
 
@@ -175,7 +175,7 @@ void execute_pa(t_push_swap *push_swap, int times)
 		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("pa")));
 		ft_lstadd_front(&push_swap->stacks.a, ft_stack_pop(&push_swap->stacks.b));
 		i++;
-		print_stacks(push_swap, "pa");
+		// print_stacks(push_swap, "pa");
 	}
 }
 
@@ -269,7 +269,6 @@ void process_partition(t_push_swap *push_swap, t_bounds *partition, int *sorted_
 		i++;
 	}
 	sort_stack_b(push_swap, partition, sorted_array);
-	// push_b_to_a(push_swap, partition);
 }
 
 t_bounds partition_array(int *sorted_array, int size, int min_index)
@@ -323,6 +322,7 @@ void do_sort(t_push_swap *push_swap)
 		// printf("Stack B ---\n");
 		// print_list(push_swap->stacks.b);
 	}
+	execute_ra(push_swap, partition.size + 1);
 
 	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("sa")));
 	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("rr")));
