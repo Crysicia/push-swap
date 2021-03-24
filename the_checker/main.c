@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:49:39 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/19 16:45:47 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/24 14:48:19 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,23 @@ t_bool	parse_statements(t_push_swap *push_swap)
 	}
 	return (true);
 }
+#include <stdio.h>
+void print_list(t_list *list)
+{
+	while (list)
+	{
+		printf("[%d] -> ", *(int *)list->content);
+		list = list->next;
+	}
+	printf("END\n");
+}
 
 t_bool	are_stacks_sorted(t_stacks *stacks)
 {
+	// printf("Stack A ---\n");
+	// print_list(stacks->a);
+	// printf("Stack B ---\n");
+	// print_list(stacks->b);
 	return (is_list_sorted(stacks->a) && stacks->b == NULL);
 }
 

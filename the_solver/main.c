@@ -6,11 +6,12 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:12:54 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/24 13:09:17 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/24 14:48:20 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shared.h"
+#define PARTITION_SIZE 20
 
 void ft_putendl(void *ptr)
 {
@@ -60,7 +61,6 @@ int ft_abs(int i)
 	return (i);
 }
 #include <stdio.h>
-#define PARTITION_SIZE 5
 
 typedef struct s_bounds
 {
@@ -268,6 +268,14 @@ void process_partition(t_push_swap *push_swap, t_bounds *partition, int *sorted_
 		execute_pb(push_swap, 1);
 		i++;
 	}
+	if (partition->starting_index > 0)
+	{
+		node_distance = get_int_distance(push_swap->stacks.a, sorted_array[partition->starting_index - 1]);
+		if (node_distance < 0)
+			execute_rra(push_swap, ft_abs(node_distance) - 1);
+		else
+			execute_ra(push_swap, node_distance + 1);
+	}
 	sort_stack_b(push_swap, partition, sorted_array);
 }
 
@@ -278,7 +286,7 @@ t_bounds partition_array(int *sorted_array, int size, int min_index)
 	int next_index;
 
 	partition_size = PARTITION_SIZE;
-	if (size - min_index - 1 < 5)
+	if (size - min_index - 1 < PARTITION_SIZE)
 		partition_size = size - min_index - 1;
 	next_index = min_index + partition_size + 1;
 	if (next_index >= size)
@@ -321,8 +329,8 @@ void do_sort(t_push_swap *push_swap)
 		// print_list(push_swap->stacks.a);
 		// printf("Stack B ---\n");
 		// print_list(push_swap->stacks.b);
+		execute_ra(push_swap, partition.size + 1);
 	}
-	execute_ra(push_swap, partition.size + 1);
 
 	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("sa")));
 	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("rr")));
