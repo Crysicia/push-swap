@@ -6,176 +6,26 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:12:54 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/24 14:57:18 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/24 22:55:24 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/shared.h"
-
-void ft_putendl(void *ptr)
-{
-	char *str;
-
-	str = (char *)ptr;
-	write(1, str, ft_strlen(str));
-	write(1, "\n", 1);
-}
+#include "solver.h"
 
 void print_instructions(t_push_swap *push_swap)
 {
 	ft_lstiter(push_swap->statements, ft_putendl);
 }
 
-void bubble_sort(int *arr, int size)
-{
-	t_bool swapped;
-	int i;
-	int temp;
-
-	swapped = true;
-	while (swapped)
-	{
-		i = 0;
-		swapped = false;
-		while (i + 1 < size)
-		{
-			if (arr[i] > arr[i + 1])
-			{
-				temp = arr[i + 1];
-				arr[i + 1] = arr[i];
-				arr[i] = temp;
-				swapped = true;
-			}
-			i++;
-		}
-		size--;
-	}
-}
-
-
-int ft_abs(int i)
-{
-	if (i < 0)
-		return (-i);
-	return (i);
-}
-#include <stdio.h>
-
-typedef struct s_bounds
-{
-	int high;
-	int low;
-	int next_index;
-	int starting_index;
-	int size;
-}				t_bounds;
-
-void print_list(t_list *list)
-{
-	while (list)
-	{
-		printf("[%d] -> ", *(int *)list->content);
-		list = list->next;
-	}
-	printf("END\n");
-}
-
-void print_bounds(t_bounds *bounds)
-{
-	printf("--- Boundaries:\nHigh: %d\nLow: %d\nNext index: %d\n", bounds->high, bounds->low, bounds->next_index);
-}
-
-void print_stacks(t_push_swap *push_swap, char *instruction)
-{
-	printf("--- Instruction [%3s] ---\nStack A ---\n", instruction);
-	print_list(push_swap->stacks.a);
-	printf("Stack B ---\n");
-	print_list(push_swap->stacks.b);
-	printf("\n");
-}
-
-void execute_rra(t_push_swap *push_swap, int times)
+void do_operation(t_push_swap *push_swap, char *operation, int times)
 {
 	int i;
 
 	i = 0;
-	while (i < times)
-	{
-		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("rra")));
-		ft_stack_reverse_rotate(&push_swap->stacks.a);
-		i++;
-		// print_stacks(push_swap, "rra");
-	}
-}
-
-void execute_ra(t_push_swap *push_swap, int times)
-{
-	int i;
-
-	i = 0;
-	while (i < times)
-	{
-		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("ra")));
-		ft_stack_rotate(&push_swap->stacks.a);
-		i++;
-		// print_stacks(push_swap, "ra");
-	}
-}
-
-void execute_rrb(t_push_swap *push_swap, int times)
-{
-	int i;
-
-	i = 0;
-	while (i < times)
-	{
-		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("rrb")));
-		ft_stack_reverse_rotate(&push_swap->stacks.b);
-		i++;
-		// print_stacks(push_swap, "rrb");
-	}
-}
-
-void execute_rb(t_push_swap *push_swap, int times)
-{
-	int i;
-
-	i = 0;
-	while (i < times)
-	{
-		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("rb")));
-		ft_stack_rotate(&push_swap->stacks.b);
-		i++;
-		// print_stacks(push_swap, "rb");
-	}
-}
-
-void execute_pb(t_push_swap *push_swap, int times)
-{
-	int i;
-
-	i = 0;
-	while (i < times)
-	{
-		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("pb")));
-		ft_lstadd_front(&push_swap->stacks.b, ft_stack_pop(&push_swap->stacks.a));
-		i++;
-		// print_stacks(push_swap, "pb");
-	}
-}
-
-void execute_pa(t_push_swap *push_swap, int times)
-{
-	int i;
-
-	i = 0;
-	while (i < times)
-	{
-		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("pa")));
-		ft_lstadd_front(&push_swap->stacks.a, ft_stack_pop(&push_swap->stacks.b));
-		i++;
-		// print_stacks(push_swap, "pa");
-	}
+	if (!ft_lstaddop_back(&push_swap->statements, operation, times))
+		ft_error(push_swap);
+	while (++i <= times)
+		execute_statement(&push_swap->stacks, operation);
 }
 
 int get_node_distance(t_list *list, t_bounds *partition)
@@ -209,11 +59,9 @@ int get_node_distance(t_list *list, t_bounds *partition)
 int get_int_distance(t_list *list, int value)
 {
 	int rotate_distance;
-	int reverse_rotate_distance;
 	int size;
 
 	rotate_distance = 0;
-	reverse_rotate_distance = 0;
 	size = ft_lstsize(list);
 	while (list)
 	{
@@ -241,10 +89,10 @@ void sort_stack_b(t_push_swap *push_swap, t_bounds *partition, int *sorted_array
 	{
 		node_distance = get_int_distance(push_swap->stacks.b, sorted_array[starting_index + i]);
 		if (node_distance < 0)
-			execute_rrb(push_swap, ft_abs(node_distance));
+			do_operation(push_swap, "rrb", ft_abs(node_distance));
 		else
-			execute_rb(push_swap, node_distance);
-		execute_pa(push_swap, 1);
+			do_operation(push_swap, "rb", node_distance);
+		do_operation(push_swap, "pa", 1);
 		i--;
 	}
 }
@@ -259,21 +107,20 @@ void process_partition(t_push_swap *push_swap, t_bounds *partition, int *sorted_
 	while (i <= partition->size)
 	{
 		node_distance = get_node_distance(push_swap->stacks.a, partition);
-		// printf("Distance: %d\n", node_distance);
 		if (node_distance < 0)
-			execute_rra(push_swap, ft_abs(node_distance));
+			do_operation(push_swap, "rra", ft_abs(node_distance));
 		else
-			execute_ra(push_swap, node_distance);
-		execute_pb(push_swap, 1);
+			do_operation(push_swap, "ra", node_distance);
+		do_operation(push_swap, "pb", 1);
 		i++;
 	}
 	if (partition->starting_index > 0)
 	{
 		node_distance = get_int_distance(push_swap->stacks.a, sorted_array[partition->starting_index - 1]);
 		if (node_distance < 0)
-			execute_rra(push_swap, ft_abs(node_distance) - 1);
+			do_operation(push_swap, "rra", ft_abs(node_distance) - 1);
 		else
-			execute_ra(push_swap, node_distance + 1);
+			do_operation(push_swap, "ra", node_distance + 1);
 	}
 	sort_stack_b(push_swap, partition, sorted_array);
 }
@@ -301,7 +148,6 @@ t_bounds partition_array(int *sorted_array, int size, int min_index)
 	return (bounds);
 }
 
-
 void do_sort(t_push_swap *push_swap)
 {
 	int *sorted_array;
@@ -325,24 +171,9 @@ void do_sort(t_push_swap *push_swap)
 	while (partition.next_index != -1)
 	{
 		partition = partition_array(sorted_array, array_length, partition.next_index);
-		// print_bounds(&partition);
 		process_partition(push_swap, &partition, sorted_array);
-		// printf("Stack A ---\n");
-		// print_list(push_swap->stacks.a);
-		// printf("Stack B ---\n");
-		// print_list(push_swap->stacks.b);
-		execute_ra(push_swap, partition.size + 1);
+		do_operation(push_swap, "ra", partition.size + 1);
 	}
-
-	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("sa")));
-	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("rr")));
-	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("rra")));
-	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("rrb")));
-	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("sb")));
-	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("ss")));
-	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("ra")));
-	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("rb")));
-	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("rrr")));
 	return ;
 }
 
@@ -366,12 +197,3 @@ int		main(int argc, char *argv[])
 	free_push_swap(&push_swap);
 	return (0);
 }
-
-
-// Scan the A stack for biggest and smallest integers
-// Sort the stack A in an array
-// Divide the array in buckets of N integers
-// Get the integers from the first bucket and push them to stack B
-// 	Sort the b stack
-// 	Push the b stack to a
-// 	repeat

@@ -6,16 +6,18 @@ LIBS 			= -Llibft -lft
 LIBFT 			= libft/libft.a
 SHARED_SRCS		= shared/utils.c \
 				  shared/stacks.c \
+				  shared/statements.c \
 				  shared/parse_arguments.c
 SHARED_OBJS 	= $(SHARED_SRCS:.c=.o)
 CHECKER 		= checker
 CHECKER_SRCS	= the_checker/main.c \
-				  the_checker/statements.c \
 				  the_checker/get_next_line_utils.c \
 				  the_checker/get_next_line.c
 CHECKER_OBJS 	= $(CHECKER_SRCS:.c=.o)
 SOLVER 			= push_swap
-SOLVER_SRCS		= the_solver/main.c
+SOLVER_SRCS		= the_solver/main.c \
+				  the_solver/debug.c \
+				  the_solver/utils.c
 SOLVER_OBJS 	= $(SOLVER_SRCS:.c=.o)
 
 all: $(CHECKER) $(SOLVER)

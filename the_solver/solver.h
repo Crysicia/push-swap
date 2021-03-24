@@ -1,44 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
+/*   solver.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/13 14:14:05 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/24 21:09:47 by lpassera         ###   ########.fr       */
+/*   Created: 2021/03/24 21:12:07 by lpassera          #+#    #+#             */
+/*   Updated: 2021/03/24 22:10:37 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPES_H
-# define TYPES_H
-# include "../libft/libft.h"
+#ifndef SOLVER_H
+# define SOLVER_H
+# include "../includes/shared.h"
+# include "debug.h"
 
-typedef enum		e_bool
-{
-	false,
-	true
-}					t_bool;
-
-typedef struct		s_stacks
-{
-	t_list			*a;
-	t_list			*b;
-}					t_stacks;
-
-typedef struct		s_push_swap
-{
-	t_stacks		stacks;
-	t_list			*statements;
-}					t_push_swap;
-
-typedef struct s_bounds
-{
-	int high;
-	int low;
-	int next_index;
-	int starting_index;
-	int size;
-}				t_bounds;
+void ft_putendl(void *ptr);
+int ft_abs(int i);
+void bubble_sort(int *arr, int size);
+t_bool	ft_lstaddop_back(t_list **lst, char *operation, int times);
 
 #endif

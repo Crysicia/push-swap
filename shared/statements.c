@@ -6,11 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:06 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/24 13:26:18 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/24 22:45:40 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "shared.h"
 
 void	handle_swap(t_stacks *stacks, char *line)
 {
@@ -64,16 +64,6 @@ void	execute_statement(t_stacks *stacks, char *line)
 	else if (*line == 'r')
 		handle_rotate(stacks, line);
 }
-#include <stdio.h>
-// void print_list(t_list *list)
-// {
-// 	while (list)
-// 	{
-// 		printf("[%d] -> ", *(int *)list->content);
-// 		list = list->next;
-// 	}
-// 	printf("END\n");
-// }
 
 void	execute_statements(t_push_swap *push_swap)
 {
@@ -83,10 +73,6 @@ void	execute_statements(t_push_swap *push_swap)
 	while (node)
 	{
 		execute_statement(&push_swap->stacks, node->content);
-		// printf("Statement [%s]\nStack A ---\n", (char *)node->content);
-		// print_list(push_swap->stacks.a);
-		// printf("Stack B ---\n");
-		// print_list(push_swap->stacks.b);
 		node = node->next;
 	}
 }
