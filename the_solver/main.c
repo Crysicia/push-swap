@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:12:54 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/23 17:28:47 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/24 11:45:35 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,32 @@ typedef struct s_bounds
 	int high;
 	int low;
 	int next_index;
+	int starting_index;
 	int size;
 }				t_bounds;
+
+void print_list(t_list *list)
+{
+	while (list)
+	{
+		printf("[%d] -> ", *(int *)list->content);
+		list = list->next;
+	}
+	printf("END\n");
+}
 
 void print_bounds(t_bounds *bounds)
 {
 	printf("--- Boundaries:\nHigh: %d\nLow: %d\nNext index: %d\n", bounds->high, bounds->low, bounds->next_index);
+}
+
+void print_stacks(t_push_swap *push_swap, char *instruction)
+{
+	printf("--- Instruction [%3s] ---\nStack A ---\n", instruction);
+	print_list(push_swap->stacks.a);
+	printf("Stack B ---\n");
+	print_list(push_swap->stacks.b);
+	printf("\n");
 }
 
 void execute_rra(t_push_swap *push_swap, int times)
@@ -85,6 +105,7 @@ void execute_rra(t_push_swap *push_swap, int times)
 		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("rra")));
 		ft_stack_reverse_rotate(&push_swap->stacks.a);
 		i++;
+		print_stacks(push_swap, "rra");
 	}
 }
 
@@ -98,6 +119,35 @@ void execute_ra(t_push_swap *push_swap, int times)
 		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("ra")));
 		ft_stack_rotate(&push_swap->stacks.a);
 		i++;
+		print_stacks(push_swap, "ra");
+	}
+}
+
+void execute_rrb(t_push_swap *push_swap, int times)
+{
+	int i;
+
+	i = 0;
+	while (i < times)
+	{
+		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("rrb")));
+		ft_stack_reverse_rotate(&push_swap->stacks.b);
+		i++;
+		print_stacks(push_swap, "rrb");
+	}
+}
+
+void execute_rb(t_push_swap *push_swap, int times)
+{
+	int i;
+
+	i = 0;
+	while (i < times)
+	{
+		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("rb")));
+		ft_stack_rotate(&push_swap->stacks.b);
+		i++;
+		print_stacks(push_swap, "rb");
 	}
 }
 
@@ -111,6 +161,21 @@ void execute_pb(t_push_swap *push_swap, int times)
 		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("pb")));
 		ft_lstadd_front(&push_swap->stacks.b, ft_stack_pop(&push_swap->stacks.a));
 		i++;
+		print_stacks(push_swap, "pb");
+	}
+}
+
+void execute_pa(t_push_swap *push_swap, int times)
+{
+	int i;
+
+	i = 0;
+	while (i < times)
+	{
+		ft_lstadd_back(&push_swap->statements, ft_lstnew(ft_strdup("pa")));
+		ft_lstadd_front(&push_swap->stacks.a, ft_stack_pop(&push_swap->stacks.b));
+		i++;
+		print_stacks(push_swap, "pa");
 	}
 }
 
@@ -142,7 +207,51 @@ int get_node_distance(t_list *list, t_bounds *partition)
 	return (best_distance);
 }
 
-void process_partition(t_push_swap *push_swap, t_bounds *partition)
+int get_int_distance(t_list *list, int value)
+{
+	int rotate_distance;
+	int reverse_rotate_distance;
+	int size;
+
+	rotate_distance = 0;
+	reverse_rotate_distance = 0;
+	size = ft_lstsize(list);
+	while (list)
+	{
+		if (value == *(int *)list->content)
+		{
+			if ((size - rotate_distance) < rotate_distance)
+				return (-(size - rotate_distance));
+			return (rotate_distance);
+		}
+		list = list->next;
+		rotate_distance++;
+	}
+	return (rotate_distance);
+}
+
+void sort_stack_b(t_push_swap *push_swap, t_bounds *partition, int *sorted_array)
+{
+	int node_distance;
+	int i;
+	int starting_index;
+
+	starting_index = partition->starting_index;
+	i = partition->size;
+	while (push_swap->stacks.b)
+	{
+		node_distance = get_int_distance(push_swap->stacks.b, sorted_array[starting_index + i]);
+		if (node_distance < 0)
+			execute_rrb(push_swap, ft_abs(node_distance));
+		else
+			execute_rb(push_swap, node_distance);
+		execute_pa(push_swap, 1);
+		i--;
+	}
+}
+
+
+void process_partition(t_push_swap *push_swap, t_bounds *partition, int *sorted_array)
 {
 	int node_distance;
 	int i;
@@ -159,6 +268,8 @@ void process_partition(t_push_swap *push_swap, t_bounds *partition)
 		execute_pb(push_swap, 1);
 		i++;
 	}
+	sort_stack_b(push_swap, partition, sorted_array);
+	// push_b_to_a(push_swap, partition);
 }
 
 t_bounds partition_array(int *sorted_array, int size, int min_index)
@@ -176,19 +287,11 @@ t_bounds partition_array(int *sorted_array, int size, int min_index)
 	bounds.low = sorted_array[min_index];
 	bounds.high = sorted_array[min_index + partition_size];
 	bounds.next_index = next_index;
+	bounds.starting_index = min_index;
 	bounds.size = partition_size;
 	return (bounds);
 }
 
-void print_list(t_list *list)
-{
-	while (list)
-	{
-		printf("[%d] -> ", *(int *)list->content);
-		list = list->next;
-	}
-	printf("END\n");
-}
 
 void do_sort(t_push_swap *push_swap)
 {
@@ -214,11 +317,11 @@ void do_sort(t_push_swap *push_swap)
 	{
 		partition = partition_array(sorted_array, array_length, partition.next_index);
 		// print_bounds(&partition);
-		process_partition(push_swap, &partition);
-		printf("Stack A ---\n");
-		print_list(push_swap->stacks.a);
-		printf("Stack B ---\n");
-		print_list(push_swap->stacks.b);
+		process_partition(push_swap, &partition, sorted_array);
+		// printf("Stack A ---\n");
+		// print_list(push_swap->stacks.a);
+		// printf("Stack B ---\n");
+		// print_list(push_swap->stacks.b);
 	}
 
 	// ft_lstadd_front(&push_swap->statements, ft_lstnew(ft_strdup("sa")));
