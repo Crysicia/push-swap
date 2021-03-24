@@ -6,12 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 17:12:54 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/24 14:48:20 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/24 14:57:18 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shared.h"
-#define PARTITION_SIZE 20
 
 void ft_putendl(void *ptr)
 {
@@ -285,8 +284,11 @@ t_bounds partition_array(int *sorted_array, int size, int min_index)
 	int partition_size;
 	int next_index;
 
-	partition_size = PARTITION_SIZE;
-	if (size - min_index - 1 < PARTITION_SIZE)
+	if (size < 250)
+		partition_size = 20;
+	else
+		partition_size = size / 10;
+	if (size - min_index - 1 < partition_size)
 		partition_size = size - min_index - 1;
 	next_index = min_index + partition_size + 1;
 	if (next_index >= size)
