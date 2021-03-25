@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 10:46:25 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/25 11:55:17 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/25 16:20:29 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,9 @@ t_bounds	partition_array(int *sorted_array, int size, int min_index)
 	int			partition_size;
 	int			next_index;
 
+	partition_size = size / 10;
 	if (size < 250)
 		partition_size = 20;
-	else
-		partition_size = size / 10;
 	if (size - min_index - 1 < partition_size)
 		partition_size = size - min_index - 1;
 	next_index = min_index + partition_size + 1;
@@ -77,30 +76,42 @@ t_bounds	partition_array(int *sorted_array, int size, int min_index)
 	return (bounds);
 }
 
+int *make_array(t_list *list, int size)
+{
+	int *sorted_array;
+	int i;
+
+	i = 0;
+	sorted_array = malloc(size * sizeof(int));
+	if (!sorted_array)
+		return (NULL);
+	while (list)
+	{
+		sorted_array[i] = *(int *)list->content;
+		list = list->next;
+		i++;
+	}
+	return (sorted_array);
+}
+
 void		do_sort(t_push_swap *push_swap)
 {
 	int			*sorted_array;
 	int			arr_len;
-	t_list		*node;
-	int			i;
 	t_bounds	partition;
 
-	i = 0;
-	node = push_swap->stacks.a;
 	arr_len = ft_lstsize(push_swap->stacks.a);
-	sorted_array = malloc(arr_len * sizeof(int));
-	while (node)
-	{
-		sorted_array[i] = *(int *)node->content;
-		node = node->next;
-		i++;
-	}
+	sorted_array = make_array(push_swap->stacks.a, arr_len);
+	if (!sorted_array)
+		ft_error(push_swap);
 	bubble_sort(sorted_array, arr_len);
 	partition.next_index = 0;
 	while (partition.next_index != -1)
 	{
 		partition = partition_array(sorted_array, arr_len, partition.next_index);
 		process_partition(push_swap, &partition, sorted_array);
-		do_operation(push_swap, "ra", partition.size + 1);
+		if (arr_len - 1> partition.size)
+			do_operation(push_swap, "ra", partition.size + 1);
 	}
+	free(sorted_array);
 }
