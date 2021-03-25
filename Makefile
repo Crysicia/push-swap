@@ -1,5 +1,5 @@
 CC				= gcc
-CFLAGS 			= -Wall -Wextra -Werror
+CFLAGS 			= -Wall -Wextra -Werror -g
 RM 				= rm -f
 HEADERS 		= -I./includes
 LIBS 			= -Llibft -lft
@@ -17,6 +17,8 @@ CHECKER_OBJS 	= $(CHECKER_SRCS:.c=.o)
 SOLVER 			= push_swap
 SOLVER_SRCS		= the_solver/main.c \
 				  the_solver/debug.c \
+				  the_solver/sort.c \
+				  the_solver/node_move.c \
 				  the_solver/utils.c
 SOLVER_OBJS 	= $(SOLVER_SRCS:.c=.o)
 
