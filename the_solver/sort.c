@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 10:46:25 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/25 16:20:29 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/26 15:41:03 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,67 @@ t_bounds	partition_array(int *sorted_array, int size, int min_index)
 	return (bounds);
 }
 
+int find_closest_value(t_list *list, int target)
+{
+	int closest;
+
+	closest = INT_MAX;
+	while (list)
+	{
+		if (ft_abs(target - *(int *)list->content) < ft_abs(closest - *(int *)list->content))
+			closest = *(int *)list->content;
+		list = list->next;
+	}
+	return (closest);
+}
+
+void sort_3_elements(t_push_swap *push_swap)
+{
+	int top;
+	int mid;
+	int bot;
+
+	while (!is_list_sorted(push_swap->stacks.a))
+	{
+		top = *(int *)push_swap->stacks.a->content;
+		mid = *(int *)push_swap->stacks.a->next->content;
+		bot = *(int *)push_swap->stacks.a->next->next->content;
+		if (top > mid && mid < bot && bot < top)
+			do_operation(push_swap, "ra", 1);
+		else if (top < mid && mid > bot && bot < top)
+			do_operation(push_swap, "rra", 1);
+		else
+			do_operation(push_swap, "sa", 1);
+	}
+}
+
+void sort_small_stack(t_push_swap *push_swap)
+{
+	int stack_a_size;
+	int current_value;
+	int closest_value;
+	int offset;
+
+	stack_a_size = ft_lstsize(push_swap->stacks.a);
+	if (stack_a_size == 2)
+	{
+		do_operation(push_swap, "sa", 1);
+		return ;
+	}
+	do_operation(push_swap, "pb", stack_a_size - 3);
+	sort_3_elements(push_swap);
+	while (push_swap->stacks.b != NULL)
+	{
+		offset = 1;
+		current_value = *(int *)push_swap->stacks.b->content;
+		closest_value = find_closest_value(push_swap->stacks.a, current_value);
+		if (closest_value < current_value)
+			offset = 0;
+		go_to_node_a(push_swap, closest_value, offset);
+		do_operation(push_swap, "pa", 1);
+	}
+}
+
 int *make_array(t_list *list, int size)
 {
 	int *sorted_array;
@@ -101,6 +162,11 @@ void		do_sort(t_push_swap *push_swap)
 	t_bounds	partition;
 
 	arr_len = ft_lstsize(push_swap->stacks.a);
+	if (arr_len < 11)
+	{
+		sort_small_stack(push_swap);
+		return ;
+	}
 	sorted_array = make_array(push_swap->stacks.a, arr_len);
 	if (!sorted_array)
 		ft_error(push_swap);
