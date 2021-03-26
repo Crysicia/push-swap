@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 10:46:25 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/26 15:41:03 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/26 17:21:10 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,45 @@ t_bounds	partition_array(int *sorted_array, int size, int min_index)
 	return (bounds);
 }
 
-int find_closest_value(t_list *list, int target)
+t_bool is_in_list(t_list *list, int target)
 {
-	int closest;
-
-	closest = INT_MAX;
 	while (list)
 	{
-		if (ft_abs(target - *(int *)list->content) < ft_abs(closest - *(int *)list->content))
-			closest = *(int *)list->content;
+		if (*(int *)list->content == target)
+			return (true);
 		list = list->next;
 	}
-	return (closest);
+	return (false);
+}
+
+int list_find_smallest(t_list *list)
+{
+	int smallest;
+
+	smallest = *(int *)list->content;
+	while (list)
+	{
+		if (*(int *)list->content < smallest)
+			smallest = *(int *)list->content;
+		list = list->next;
+	}
+	return (smallest);
+}
+
+int find_closest_value(t_list *list, int target, int *sorted_array)
+{
+	int index;
+
+	index = 0;
+	while (sorted_array[index] != target)
+		index++;
+	while (index >= 0)
+	{
+		if (is_in_list(list, sorted_array[index]))
+			return (sorted_array[index]);
+		index--;
+	}
+	return (list_find_smallest(list));
 }
 
 void sort_3_elements(t_push_swap *push_swap)
@@ -110,7 +137,7 @@ void sort_3_elements(t_push_swap *push_swap)
 	}
 }
 
-void sort_small_stack(t_push_swap *push_swap)
+void sort_small_stack(t_push_swap *push_swap, int *sorted_array)
 {
 	int stack_a_size;
 	int current_value;
@@ -127,14 +154,15 @@ void sort_small_stack(t_push_swap *push_swap)
 	sort_3_elements(push_swap);
 	while (push_swap->stacks.b != NULL)
 	{
-		offset = 1;
 		current_value = *(int *)push_swap->stacks.b->content;
-		closest_value = find_closest_value(push_swap->stacks.a, current_value);
-		if (closest_value < current_value)
+		closest_value = find_closest_value(push_swap->stacks.a, current_value, sorted_array);
+		offset = 1;
+		if (closest_value > current_value)
 			offset = 0;
 		go_to_node_a(push_swap, closest_value, offset);
 		do_operation(push_swap, "pa", 1);
 	}
+	go_to_node_a(push_swap, list_find_smallest(push_swap->stacks.a), 0);
 }
 
 int *make_array(t_list *list, int size)
@@ -162,22 +190,22 @@ void		do_sort(t_push_swap *push_swap)
 	t_bounds	partition;
 
 	arr_len = ft_lstsize(push_swap->stacks.a);
-	if (arr_len < 11)
-	{
-		sort_small_stack(push_swap);
-		return ;
-	}
 	sorted_array = make_array(push_swap->stacks.a, arr_len);
 	if (!sorted_array)
 		ft_error(push_swap);
 	bubble_sort(sorted_array, arr_len);
-	partition.next_index = 0;
-	while (partition.next_index != -1)
+	if (arr_len < 11)
+		sort_small_stack(push_swap, sorted_array);
+	else
 	{
-		partition = partition_array(sorted_array, arr_len, partition.next_index);
-		process_partition(push_swap, &partition, sorted_array);
-		if (arr_len - 1> partition.size)
-			do_operation(push_swap, "ra", partition.size + 1);
+		partition.next_index = 0;
+		while (partition.next_index != -1)
+		{
+			partition = partition_array(sorted_array, arr_len, partition.next_index);
+			process_partition(push_swap, &partition, sorted_array);
+			if (arr_len - 1> partition.size)
+				do_operation(push_swap, "ra", partition.size + 1);
+		}
 	}
 	free(sorted_array);
 }
