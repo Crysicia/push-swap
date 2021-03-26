@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 21:13:30 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/24 22:09:21 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/26 17:34:18 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	bubble_sort(int *arr, int size)
 
 t_bool	ft_lstaddop_back(t_list **lst, char *operation, int times)
 {
-	t_list *node;
-	char *str;
-	int i;
+	t_list	*node;
+	char	*str;
+	int		i;
 
 	i = 0;
 	while (i < times)
@@ -78,4 +78,22 @@ t_bool	ft_lstaddop_back(t_list **lst, char *operation, int times)
 		i++;
 	}
 	return (true);
+}
+
+int		*make_array(t_list *list, int size)
+{
+	int *sorted_array;
+	int i;
+
+	i = 0;
+	sorted_array = malloc(size * sizeof(int));
+	if (!sorted_array)
+		return (NULL);
+	while (list)
+	{
+		sorted_array[i] = *(int *)list->content;
+		list = list->next;
+		i++;
+	}
+	return (sorted_array);
 }

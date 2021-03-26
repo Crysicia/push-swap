@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 10:44:33 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/25 10:47:08 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/26 17:33:16 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		get_int_distance(t_list *list, int value)
 	return (rotate_distance);
 }
 
-void		go_to_node_b(t_push_swap *push_swap, int target, int offset)
+void	go_to_node_b(t_push_swap *push_swap, int target, int offset)
 {
 	int node_distance;
 
@@ -72,7 +72,7 @@ void		go_to_node_b(t_push_swap *push_swap, int target, int offset)
 		do_operation(push_swap, "rb", node_distance + offset);
 }
 
-void		go_to_node_a(t_push_swap *push_swap, int target, int offset)
+void	go_to_node_a(t_push_swap *push_swap, int target, int offset)
 {
 	int node_distance;
 
@@ -83,7 +83,7 @@ void		go_to_node_a(t_push_swap *push_swap, int target, int offset)
 		do_operation(push_swap, "ra", node_distance + offset);
 }
 
-void		go_to_range_a(t_push_swap *push_swap, t_bounds *partition)
+void	go_to_range_a(t_push_swap *push_swap, t_bounds *partition)
 {
 	int node_distance;
 
