@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:06 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/27 11:44:42 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 14:27:48 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,48 @@ void	execute_statement(t_stacks *stacks, char *line)
 		handle_rotate(stacks, line);
 }
 
+#include <stdio.h>
+
+void display_stacks(t_push_swap *push_swap, char *line)
+{
+	t_list *stack_a;
+	t_list *stack_b;
+	int stack_a_size;
+	int stack_b_size;
+	int biggest_stack;
+
+	stack_a_size = ft_lstsize(push_swap->stacks.a);
+	stack_b_size = ft_lstsize(push_swap->stacks.b);
+	biggest_stack = ft_max(stack_a_size, stack_b_size);
+	stack_a = push_swap->stacks.a;
+	stack_b = push_swap->stacks.b;
+	printf("--- Current instruction [%3s] ---\n", line);
+	while (biggest_stack > 0)
+	{
+		if (stack_a_size > stack_b_size)
+		{
+			printf("%15.*d | %15.*d\n", 1, *(int *)stack_a->content, 0, 0);
+			stack_a_size--;
+			stack_a = stack_a->next;
+		}
+		else if (stack_a_size < stack_b_size)
+		{
+			printf("%15.*d | %15.*d\n", 0, 0, 1, *(int *)stack_b->content);
+			stack_b_size--;
+			stack_b = stack_b->next;
+		}
+		else
+		{
+			printf("%15.*d | %15.*d\n", 1, *(int *)stack_a->content, 1, *(int *)stack_b->content);
+			stack_a = stack_a->next;
+			stack_b = stack_b->next;
+		}
+		biggest_stack--;
+	}
+	printf("--- Stack A ----|---- Stack B ---\n\n");
+}
+
+
 void	execute_statements(t_push_swap *push_swap)
 {
 	t_list *node;
@@ -73,6 +115,7 @@ void	execute_statements(t_push_swap *push_swap)
 	while (node)
 	{
 		execute_statement(&push_swap->stacks, node->content);
+		display_stacks(push_swap, node->content);
 		node = node->next;
 	}
 }
