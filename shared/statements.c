@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:06 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/27 14:27:48 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 14:40:32 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,19 +85,19 @@ void display_stacks(t_push_swap *push_swap, char *line)
 	{
 		if (stack_a_size > stack_b_size)
 		{
-			printf("%15.*d | %15.*d\n", 1, *(int *)stack_a->content, 0, 0);
+			printf("%15d | %15.0d\n", *(int *)stack_a->content, 0);
 			stack_a_size--;
 			stack_a = stack_a->next;
 		}
 		else if (stack_a_size < stack_b_size)
 		{
-			printf("%15.*d | %15.*d\n", 0, 0, 1, *(int *)stack_b->content);
+			printf("%15.0d | %15d\n", 0, *(int *)stack_b->content);
 			stack_b_size--;
 			stack_b = stack_b->next;
 		}
 		else
 		{
-			printf("%15.*d | %15.*d\n", 1, *(int *)stack_a->content, 1, *(int *)stack_b->content);
+			printf("%15d | %15d\n", *(int *)stack_a->content, *(int *)stack_b->content);
 			stack_a = stack_a->next;
 			stack_b = stack_b->next;
 		}
