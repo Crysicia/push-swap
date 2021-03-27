@@ -6,11 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:55:10 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/19 16:45:48 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 11:44:42 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shared.h"
+#include "../includes/shared.h"
 
 void	init_push_swap(t_push_swap *push_swap)
 {

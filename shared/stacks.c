@@ -6,11 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 11:54:03 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/22 15:45:39 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 11:44:41 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shared.h"
+#include "../includes/shared.h"
 
 void	ft_stack_rotate(t_list **stack)
 {

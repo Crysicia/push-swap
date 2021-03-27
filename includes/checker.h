@@ -6,13 +6,13 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 15:03:56 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/22 15:46:43 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 11:45:10 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHECKER_H
 # define CHECKER_H
-# include "../includes/shared.h"
+# include "shared.h"
 # define NUM_OF_INSTRUCTIONS 11
 # define BUFFER_SIZE 256
 

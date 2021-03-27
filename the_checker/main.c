@@ -6,11 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:49:39 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/26 17:43:40 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 11:45:24 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "../includes/checker.h"
 
 t_bool	is_statement_valid(char *line)
 {
@@ -30,6 +30,14 @@ t_bool	is_statement_valid(char *line)
 	return (false);
 }
 
+t_bool	free_gnl(t_list *node, char *remaining, char *line)
+{
+	free(remaining);
+	free(line);
+	free(node);
+	return (false);
+}
+
 t_bool	parse_statements(t_push_swap *push_swap)
 {
 	char	*line;
@@ -38,24 +46,22 @@ t_bool	parse_statements(t_push_swap *push_swap)
 	t_list	*node;
 
 	remaining = NULL;
+	node = NULL;
 	gnl_ret = 1;
 	while (gnl_ret == 1)
 	{
 		line = NULL;
 		gnl_ret = get_next_line(STDIN_FILENO, &line, &remaining);
 		if (gnl_ret == -1)
-		{
-			free(line);
-			free(remaining);
-			return (false);
-		}
+			return (free_gnl(node, remaining, line));
 		if (gnl_ret == 0)
 			break ;
 		node = ft_lstnew(line);
 		if (!node || !is_statement_valid(line))
-			return (false);
+			return (free_gnl(node, remaining, line));
 		ft_lstadd_back(&push_swap->statements, node);
 	}
+	free(line);
 	return (true);
 }
 

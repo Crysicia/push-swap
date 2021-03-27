@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 15:38:02 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/24 22:46:36 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 09:41:11 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 t_bool	parse_arguments(t_stacks *stacks, char *arg);
 t_bool	ft_malloc(void **pointer, size_t size);
-t_bool	is_duplicate(char *argv[], int argc);;
+t_bool	is_duplicate(char *argv[], int argc);
 
 void	init_push_swap(t_push_swap *push_swap);
 void	free_push_swap(t_push_swap *push_swap);

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 14:14:05 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/24 21:09:47 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 09:41:23 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ typedef struct		s_push_swap
 	t_list			*statements;
 }					t_push_swap;
 
-typedef struct s_bounds
+typedef struct		s_bounds
 {
 	int high;
 	int low;
 	int next_index;
 	int starting_index;
 	int size;
-}				t_bounds;
+}					t_bounds;
 
 #endif

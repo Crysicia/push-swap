@@ -6,11 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:06 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/26 14:46:06 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 11:44:42 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shared.h"
+#include "../includes/shared.h"
 
 void	handle_swap(t_stacks *stacks, char *line)
 {

@@ -6,11 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 15:31:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/19 16:45:49 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 11:44:38 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "../includes/checker.h"
 
 char	*gnl_strdup(const char *s1)
 {

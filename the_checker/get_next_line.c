@@ -6,11 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 15:31:00 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/19 16:45:48 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 11:44:45 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#include "../includes/checker.h"
 
 void	gnl_nl_to_null(char *str)
 {
