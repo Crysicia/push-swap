@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 10:46:25 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/26 17:38:50 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 20:25:14 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void		do_sort(t_push_swap *push_swap)
 	if (!array)
 		ft_error(push_swap);
 	bubble_sort(array, arr_len);
-	if (arr_len < 11)
+	if (arr_len < 20)
 		sort_small_stack(push_swap, array);
 	else
 	{
@@ -106,9 +106,8 @@ void		do_sort(t_push_swap *push_swap)
 		{
 			partition = partition_array(array, arr_len, partition.next_index);
 			process_partition(push_swap, &partition, array);
-			if (arr_len - 1 > partition.size)
-				do_operation(push_swap, "ra", partition.size + 1);
 		}
+		go_to_node_a(push_swap, array[0], 0);
 	}
 	free(array);
 }

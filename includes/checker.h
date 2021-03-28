@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 15:03:56 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/27 11:45:10 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/27 19:52:20 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 # include "shared.h"
 # define NUM_OF_INSTRUCTIONS 11
 # define BUFFER_SIZE 256
-
-void	execute_statements(t_push_swap *push_swap);
 
 /*
 ** Get next line
