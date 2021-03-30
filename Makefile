@@ -7,6 +7,7 @@ LIBFT 			= libft/libft.a
 SHARED_SRCS		= shared/utils.c \
 				  shared/stacks.c \
 				  shared/statements.c \
+				  shared/display.c \
 				  shared/parse_arguments.c
 SHARED_OBJS 	= $(SHARED_SRCS:.c=.o)
 CHECKER 		= checker

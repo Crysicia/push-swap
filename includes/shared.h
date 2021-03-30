@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 15:38:02 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/27 17:50:45 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/30 10:30:44 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ void	handle_push(t_stacks *stacks, char *line);
 void	handle_rotate(t_stacks *stacks, char *line);
 void	execute_statement(t_stacks *stacks, char *line);
 void	execute_statements(t_push_swap *push_swap, t_args *args);
+
+t_bool	set_argument(t_args *args, char *line);
+void	parse_bonus_arguments(int argc, char *argv[], t_args *args);
+void	display_stacks(t_push_swap *push_swap, char *line);
 
 /*
 ** Stacks

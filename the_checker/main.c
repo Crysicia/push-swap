@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:49:39 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/27 17:50:33 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/30 10:33:45 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,39 +68,6 @@ t_bool	parse_statements(t_push_swap *push_swap)
 t_bool	are_stacks_sorted(t_stacks *stacks)
 {
 	return (is_list_sorted(stacks->a) && stacks->b == NULL);
-}
-
-t_bool	set_argument(t_args *args, char *line)
-{
-	if (!ft_strcmp(line, "-c"))
-	{
-		if (args->color)
-			return (false);
-		args->color = true;
-	}
-	else if (!ft_strcmp(line, "-v"))
-	{
-		if (args->verbose)
-			return (false);
-		args->verbose = true;
-	}
-	else
-		return (false);
-	return (true);
-}
-
-void	parse_bonus_arguments(int argc, char *argv[], t_args *args)
-{
-	t_bool	parsing;
-	int		i;
-
-	i = 0;
-	args->color = false;
-	args->verbose = false;
-	parsing = true;
-	while (parsing && ++i < argc)
-		parsing = set_argument(args, argv[i]);
-	args->index = i;
 }
 
 int		main(int argc, char *argv[])

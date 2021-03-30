@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 15:19:29 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/27 11:44:40 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/30 14:42:55 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_bool	is_argument_valid(char *arg)
 	}
 	while ((*arg >= 9 && 13 >= *arg) || *arg == 32)
 		arg++;
-	return (*arg == '\0' && num_len <= 10);
+	return (*arg == '\0' && num_len <= 10 && num_len > 0);
 }
 
 t_bool	parse_arguments(t_stacks *stacks, char *arg)
@@ -75,4 +75,30 @@ t_bool	parse_arguments(t_stacks *stacks, char *arg)
 	}
 	ft_lstadd_front(&(stacks->a), node);
 	return (true);
+}
+
+t_bool	set_argument(t_args *args, char *line)
+{
+	if (!ft_strcmp(line, "-v"))
+	{
+		if (args->verbose)
+			return (false);
+		args->verbose = true;
+		return (true);
+	}
+	return (false);
+}
+
+void	parse_bonus_arguments(int argc, char *argv[], t_args *args)
+{
+	t_bool	parsing;
+	int		i;
+
+	i = 0;
+	args->color = false;
+	args->verbose = false;
+	parsing = true;
+	while (parsing && ++i < argc)
+		parsing = set_argument(args, argv[i]);
+	args->index = i;
 }

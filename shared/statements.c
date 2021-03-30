@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:30:06 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/27 21:02:12 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/30 10:30:31 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,48 +64,6 @@ void	execute_statement(t_stacks *stacks, char *line)
 	else if (*line == 'r')
 		handle_rotate(stacks, line);
 }
-
-#include <stdio.h>
-
-void display_stacks(t_push_swap *push_swap, char *line)
-{
-	t_list *stack_a;
-	t_list *stack_b;
-	int stack_a_size;
-	int stack_b_size;
-	int biggest_stack;
-
-	stack_a_size = ft_lstsize(push_swap->stacks.a);
-	stack_b_size = ft_lstsize(push_swap->stacks.b);
-	biggest_stack = ft_max(stack_a_size, stack_b_size);
-	stack_a = push_swap->stacks.a;
-	stack_b = push_swap->stacks.b;
-	printf("--- Current instruction [%3s] ---\n", line);
-	while (biggest_stack > 0)
-	{
-		if (stack_a_size > stack_b_size)
-		{
-			printf("%15d | %15.0d\n", *(int *)stack_a->content, 0);
-			stack_a_size--;
-			stack_a = stack_a->next;
-		}
-		else if (stack_a_size < stack_b_size)
-		{
-			printf("%15.0d | %15d\n", 0, *(int *)stack_b->content);
-			stack_b_size--;
-			stack_b = stack_b->next;
-		}
-		else
-		{
-			printf("%15d | %15d\n", *(int *)stack_a->content, *(int *)stack_b->content);
-			stack_a = stack_a->next;
-			stack_b = stack_b->next;
-		}
-		biggest_stack--;
-	}
-	printf("--- Stack A ----|---- Stack B ---\n\n");
-}
-
 
 void	execute_statements(t_push_swap *push_swap, t_args *args)
 {

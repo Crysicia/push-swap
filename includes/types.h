@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 14:14:05 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/27 17:46:15 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/30 14:38:14 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,14 @@ typedef struct		s_args
 	t_bool			verbose;
 	int				index;
 }					t_args;
+
+typedef struct		s_display
+{
+	int				biggest_stack;
+	int				stack_a_size;
+	int				stack_b_size;
+	t_list			*stack_a;
+	t_list 			*stack_b;
+}					t_display;
 
 #endif
