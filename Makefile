@@ -1,5 +1,5 @@
 CC				= gcc
-CFLAGS 			= -Wall -Wextra -Werror -g
+CFLAGS 			= -Wall -Wextra -Werror
 RM 				= rm -f
 HEADERS 		= -I./includes
 LIBS 			= -Llibft -lft
