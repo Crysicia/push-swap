@@ -17,7 +17,6 @@ CHECKER_SRCS	= the_checker/main.c \
 CHECKER_OBJS 	= $(CHECKER_SRCS:.c=.o)
 SOLVER 			= push_swap
 SOLVER_SRCS		= the_solver/main.c \
-				  the_solver/debug.c \
 				  the_solver/sort.c \
 				  the_solver/partition.c \
 				  the_solver/node_move.c \

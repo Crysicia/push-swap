@@ -6,14 +6,13 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 21:12:07 by lpassera          #+#    #+#             */
-/*   Updated: 2021/03/27 11:45:56 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/03/30 16:16:59 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SOLVER_H
 # define SOLVER_H
 # include "shared.h"
-# include "../the_solver/debug.h"
 
 void		process_partition(t_push_swap *push_swap, t_bounds *partition,
 			int *sorted_array);
